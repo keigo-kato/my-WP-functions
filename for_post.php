@@ -83,3 +83,22 @@ function my_get_img_tag_with_timthumb( $timthumb_params ) {
 		esc_attr( $alt ), 
 	) );
 }
+
+/**
+ * カテゴリーのリストをバッジで出力するとき、一つだけまたは全て出力かを選択できる。
+ *
+ * @param  mixed $is_one
+ *
+ * @return void
+ */
+function my_the_cat_list($is_one = true) {
+  $wp_cats = get_the_category();
+  if(empty($wp_cats[0])) {return false;}
+
+	$catlist = array();
+  $cat_items = '';
+	foreach( $wp_cats as $cat ) {
+		$catlist[] = '<a href="' . get_category_link($cat->term_id) . '" class="entry-meta cat cat-item badge badge-black cat-item-' . $cat->cat_ID . '">' . $cat->cat_name . '</a>';
+	}
+  echo $cat_items = ($is_one) ? $catlist[0] : implode("\n", $catlist);
+}
